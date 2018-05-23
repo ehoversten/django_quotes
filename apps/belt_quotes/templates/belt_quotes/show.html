@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Quotable Quotes</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'belt_quotes/css/quote_styles.css' %}">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">
+        <div class="navbar">
+          <a href="/dashboard"><button class="btn btn-primary" type="button" name="home_btn">Dashboard</button></a>
+          <a href="/logout"><button class="btn btn-danger" type="button" name="logout_btn">Logout</button></a>
+        </div>
+      </div>
+      <div class="container">
+        <div class="this_users_info">
+          <h2>Posts by: {{ this_user.name }}</h2>
+          <h3>Count: {{ count }}</h3>
+        <div class="this_users_quotes">
+          {% for item in all_my_quotes %}
+            <p class='red'>{{ item.author}}: </p>
+            <p>{{ item.posted_quote }}</p>
+          {% endfor %}
+        </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Quotable Quotes</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'belt_quotes/css/quote_styles.css' %}">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">
+        <div class="navbar">
+          <h3>Hello, {{ request.session.name }}</h3>
+          <a href="/logout"><button class="btn btn-danger" type="button" name="logout_btn">Logout</button></a>
+        </div>
+      </div>
+      <div class="dashboard_container">
+        <div class="available_quotes">
+          <h2>Quotable Quotes:</h2>
+          <div class="quote_container">
+            {% for item in others_quotes %}
+              <div class="quote_box">
+                <h4>{{ item.author }}: {{ item.posted_quote }}</h4>
+                <p>Posted by <a href="/users/{{ item.poster.id }}">{{ item.poster.name}}</a></p>
+                <a href="/join/{{ item.id }}"><button class="btn btn-primary" type="button" name="home_btn">Add to my list</button></a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="user_favs">
+          <h2>Your Favorites:</h2>
+          <div class="favs_container">
+          {% for item in my_favs %}
+            <div class="quote_box">
+              <h4>{{ item.author }}: {{ item.posted_quote }}</h4>
+              <p>Posted by <a href="/users/{{ item.poster.id }}">{{ item.poster.name}}</a></p>
+              <a href="/take_off/{{ item.id}}"><button class="btn btn-success" type="button" name="home_btn">Remove from my list</button></a>
+            </div>
+          {% endfor %}
+          </div>
+
+          <div class="add_to_container">
+            <div class="quote_messages">
+              {% if messages %}
+                {% for message in messages %}
+                  <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            </div>
+            <h2>Contribute a Quote:</h2>
+
+            <form class="form-group" action="dashboard/add" method="post">
+              {% csrf_token %}
+              Quoted By:<input type="text" name="author" value="">
+              Message:<input type="textarea" name="posted_quote" value="">
+              <button class="btn btn-warning" type="submit" name="button"> Submit</button>
+            </form>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
