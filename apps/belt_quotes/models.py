@@ -57,6 +57,9 @@ class UserManager(models.Manager):
     def loginValidator(self, form):
 
         errors = []
+    # --- Validate PASSWORD ---
+        if len(form['passwd']) < 1:
+            errors.append("Password cannot be empty")
     # --- Validate EMAIL ---
         if not form['email']:
             errors.append("Email required.")
@@ -64,9 +67,7 @@ class UserManager(models.Manager):
             errors.append("Email must have valid format.")
         elif not User.objects.filter(email=form['email']):
              errors.append("Please register first")
-    # --- Validate PASSWORD ---
-        if len(form['passwd']) < 1:
-            errors.append("Password cannot be empty")
+
         else:
             user = User.objects.filter(email=form['email'])
             if not bcrypt.checkpw(form['passwd'].encode(), user[0].passwd.encode()):
